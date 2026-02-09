@@ -1,0 +1,42 @@
+[
+  {
+    "id": "HM-101",
+    "title": "Piso céntrico luminoso",
+    "zone": "Málaga Centro",
+    "price": 185000,
+    "bedrooms": 2,
+    "type": "Piso"
+  },
+  {
+    "id": "HM-114",
+    "title": "Apartamento cerca de la playa",
+    "zone": "Torremolinos",
+    "price": 220000,
+    "bedrooms": 2,
+    "type": "Apartamento"
+  },
+  {
+    "id": "HM-127",
+    "title": "Casa con jardín",
+    "zone": "Benalmádena",
+    "price": 350000,
+    "bedrooms": 3,
+    "type": "Casa"
+  },
+  {
+    "id": "HM-139",
+    "title": "Ático con terraza",
+    "zone": "Fuengirola",
+    "price": 410000,
+    "bedrooms": 3,
+    "type": "Ático"
+  },
+  {
+    "id": "HM-155",
+    "title": "Estudio para inversión",
+    "zone": "Málaga Este",
+    "price": 120000,
+    "bedrooms": 1,
+    "type": "Estudio"
+  }
+]
