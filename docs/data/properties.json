@@ -1,83 +1,572 @@
 [
   {
-    "id": "HM-101",
-    "title": "Piso céntrico luminoso",
-    "zone": "Málaga Centro",
-    "price": 185000,
+    "id": "2275356",
+    "category": "alquiler",
+    "title": "ALQUILER LARGA TEMPORADA",
+    "zone": "",
     "bedrooms": 2,
-    "type": "Piso",
-    "category": "venta"
+    "price": null,
+    "rent": 1250,
+    "type": "piso"
   },
   {
-    "id": "HM-114",
-    "title": "Apartamento cerca de la playa",
-    "zone": "Torremolinos",
-    "price": 220000,
-    "bedrooms": 2,
-    "type": "Apartamento",
-    "category": "venta"
+    "id": "3170425",
+    "category": "venta",
+    "title": "FINCA DE REGADIO ZONA EL ZANGANO",
+    "zone": "",
+    "bedrooms": 0,
+    "price": 315000,
+    "rent": null,
+    "type": "terreno"
   },
   {
-    "id": "HM-127",
-    "title": "Casa con jardín",
-    "zone": "Benalmádena",
-    "price": 350000,
+    "id": "3355759",
+    "category": "venta",
+    "title": "Estupenda vivienda adosada en venta en la zona de El Limón – Alhaurín de la Torre",
+    "zone": "Platero - El Limón",
     "bedrooms": 3,
-    "type": "Casa",
-    "category": "venta"
+    "price": 395000,
+    "rent": null,
+    "type": "casa / chalet"
   },
   {
-    "id": "HM-139",
-    "title": "Ático con terraza",
-    "zone": "Fuengirola",
-    "price": 410000,
-    "bedrooms": 3,
-    "type": "Ático",
-    "category": "venta"
-  },
-  {
-    "id": "HM-155",
-    "title": "Estudio para inversión",
-    "zone": "Málaga Este",
-    "price": 120000,
+    "id": "3404606",
+    "category": "alquiler",
+    "title": "",
+    "zone": "",
     "bedrooms": 1,
-    "type": "Estudio",
-    "category": "venta"
+    "price": null,
+    "rent": 990,
+    "type": "local"
   },
   {
-    "id": "HM-201",
-    "title": "Apartamento amueblado",
-    "zone": "Málaga Centro",
+    "id": "3486328",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 5,
+    "price": 850000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "3510882",
+    "category": "venta",
+    "title": "LOTE DE 9 PARCELAS",
+    "zone": "",
+    "bedrooms": 0,
+    "price": 70000,
+    "rent": null,
+    "type": "terreno"
+  },
+  {
+    "id": "3512137",
+    "category": "venta",
+    "title": "Oportunidad de inversión en Churriana, Málaga",
+    "zone": "La Higuereta",
+    "bedrooms": 1,
+    "price": 320000,
+    "rent": null,
+    "type": "local"
+  },
+  {
+    "id": "3614854",
+    "category": "venta",
+    "title": "",
+    "zone": "El Pizarrillo",
+    "bedrooms": 2,
+    "price": 479000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "3761883",
+    "category": "venta",
+    "title": "GRAN OPORTUNIDAD PARA TU NEGOCIO",
+    "zone": "",
+    "bedrooms": 0,
+    "price": 689000,
+    "rent": null,
+    "type": "edificio"
+  },
+  {
+    "id": "4008922",
+    "category": "venta",
+    "title": "",
+    "zone": "Los Álamos",
+    "bedrooms": 4,
+    "price": 1750000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4049811",
+    "category": "venta",
+    "title": "",
+    "zone": "Santángelo",
+    "bedrooms": 0,
+    "price": 309000,
+    "rent": null,
+    "type": "terreno"
+  },
+  {
+    "id": "4089493",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 2,
+    "price": 268300,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4106868",
+    "category": "venta",
+    "title": "PARCELA URBANA INDUSTRIAL!!",
+    "zone": "",
+    "bedrooms": 0,
+    "price": 89900,
+    "rent": null,
+    "type": "terreno"
+  },
+  {
+    "id": "4106869",
+    "category": "venta",
+    "title": "PARCELA URBANA INDUSTRIAL!!",
+    "zone": "",
+    "bedrooms": 0,
+    "price": 89900,
+    "rent": null,
+    "type": "terreno"
+  },
+  {
+    "id": "4110049",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 1,
+    "price": 320000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4132958",
+    "category": "venta",
+    "title": "5 LOCALES COMERCIALES",
+    "zone": "",
+    "bedrooms": 1,
+    "price": 299000,
+    "rent": null,
+    "type": "local"
+  },
+  {
+    "id": "4135530",
+    "category": "venta",
+    "title": "",
+    "zone": "Cortijos del sol",
+    "bedrooms": 4,
+    "price": 660000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4139413",
+    "category": "venta",
+    "title": "AMPLIO PISO IDEAL FAMILIAS O COMO INVERSIÓN EN MÁLAGA!!!",
+    "zone": "Cruz de Humilladero",
+    "bedrooms": 3,
+    "price": 255000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4140110",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 2,
+    "price": 219000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4157272",
+    "category": "venta",
+    "title": "Finca Rústica con Casa, Piscina y Envasadora de Aceite – ¡Oportunidad Única! Cerca de Antequera",
+    "zone": "",
+    "bedrooms": 3,
+    "price": 425000,
+    "rent": null,
+    "type": "nave industrial"
+  },
+  {
+    "id": "4160933",
+    "category": "venta",
+    "title": "CASA RÚSTICA CON 8HA Y ENVASADORA DE ACEITE CON CARTERA DE CLIENTES EN FUNCIONAMIENTO CERCA DE ANTEQUERA",
+    "zone": "",
+    "bedrooms": 2,
+    "price": 425000,
+    "rent": null,
+    "type": "casa rústica"
+  },
+  {
+    "id": "4162164",
+    "category": "venta",
+    "title": "",
+    "zone": "Churriana",
+    "bedrooms": 4,
+    "price": 549000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4164254",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 3,
+    "price": 725000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4170558",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 2,
+    "price": 299000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4182298",
+    "category": "venta",
+    "title": "Casa Adosada En Alhaurín de la Torre.",
+    "zone": "",
+    "bedrooms": 2,
+    "price": 320000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4183152",
+    "category": "alquiler",
+    "title": "ALQUILER CORTA TEMPORADA",
+    "zone": "",
+    "bedrooms": 1,
+    "price": null,
     "rent": 850,
+    "type": "piso"
+  },
+  {
+    "id": "4183644",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 4,
+    "price": 319000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4183794",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 2,
+    "price": 523000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4186404",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 4,
+    "price": 319000,
+    "rent": null,
+    "type": "local"
+  },
+  {
+    "id": "4187764",
+    "category": "venta",
+    "title": "",
+    "zone": "",
     "bedrooms": 1,
-    "type": "Apartamento",
-    "category": "alquiler"
+    "price": 199000,
+    "rent": null,
+    "type": "piso"
   },
   {
-    "id": "HM-214",
-    "title": "Piso cerca del mar",
-    "zone": "Torremolinos",
-    "rent": 1100,
-    "bedrooms": 2,
-    "type": "Piso",
-    "category": "alquiler"
-  },
-  {
-    "id": "HM-227",
-    "title": "Ático luminoso",
-    "zone": "Fuengirola",
-    "rent": 1450,
-    "bedrooms": 2,
-    "type": "Ático",
-    "category": "alquiler"
-  },
-  {
-    "id": "HM-239",
-    "title": "Dúplex familiar",
-    "zone": "Benalmádena",
-    "rent": 1600,
+    "id": "4196425",
+    "category": "venta",
+    "title": "",
+    "zone": "",
     "bedrooms": 3,
-    "type": "Dúplex",
-    "category": "alquiler"
+    "price": 220000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4199750",
+    "category": "venta",
+    "title": "🌴 Vive la tranquilidad, el confort y el encanto de Los Manantiales 🌅",
+    "zone": "",
+    "bedrooms": 3,
+    "price": 799000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4202084",
+    "category": "venta",
+    "title": "🅿️ Plaza de aparcamiento con trastero en Churriana – La Noria",
+    "zone": "Churriana-El Pizarrillo-La Noria-Guadalsol",
+    "bedrooms": 0,
+    "price": 20500,
+    "rent": null,
+    "type": "plaza de parking"
+  },
+  {
+    "id": "4204971",
+    "category": "venta",
+    "title": "🌟 Exclusiva vivienda en Torre Atalaya – Málaga | Amplia, luminosa y lista para entrar a vivir",
+    "zone": "",
+    "bedrooms": 3,
+    "price": 499900,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4205849",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 0,
+    "price": 160000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4207181",
+    "category": "alquiler",
+    "title": "Alquiler de local en bruto en el centro de Alhaurín de la Torre – Gran opción de inversión**",
+    "zone": "",
+    "bedrooms": 1,
+    "price": null,
+    "rent": 1000,
+    "type": "local"
+  },
+  {
+    "id": "4207198",
+    "category": "alquiler",
+    "title": "Alquiler de local comercial en bruto de 150 m² en el centro de Alhaurín de la Torre",
+    "zone": "",
+    "bedrooms": 1,
+    "price": null,
+    "rent": 1500,
+    "type": "local"
+  },
+  {
+    "id": "4208097",
+    "category": "venta",
+    "title": "✨ Un hogar que brilla por luz, estilo y calidad de vida en Churriana ✨",
+    "zone": "Cortijo de Maza-Finca Monsalvez-El Olivar",
+    "bedrooms": 3,
+    "price": 373000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4209785",
+    "category": "venta",
+    "title": "TODOS!!! los días junto al mar🌊☀️",
+    "zone": "",
+    "bedrooms": 1,
+    "price": 255000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4209848",
+    "category": "venta",
+    "title": "Modernidad, espacio y calidez: así empieza tu nueva vida.",
+    "zone": "",
+    "bedrooms": 5,
+    "price": 549000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4210405",
+    "category": "venta",
+    "title": "Increíble piso en primera línea de playa – Puerto Marina, Benalmádena!",
+    "zone": "",
+    "bedrooms": 2,
+    "price": 450000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4213455",
+    "category": "venta",
+    "title": "Piso con 2 plazas de aparcamiento y trastero",
+    "zone": "",
+    "bedrooms": 3,
+    "price": 399000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4214957",
+    "category": "alquiler",
+    "title": "TALLER METALICO LISTO PARA PRODUCIR",
+    "zone": "",
+    "bedrooms": 2,
+    "price": null,
+    "rent": 1600,
+    "type": "nave industrial"
+  },
+  {
+    "id": "4215267",
+    "category": "venta",
+    "title": "",
+    "zone": "Jardines de Alhaurín-Huerta Alta-Fuensanguínea",
+    "bedrooms": 3,
+    "price": 795000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4217894",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 1,
+    "price": 195000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4217902",
+    "category": "venta",
+    "title": "✨ Exclusiva vivienda en el corazón de Alhaurín de la Torre ✨",
+    "zone": "Centro",
+    "bedrooms": 2,
+    "price": 279000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4217905",
+    "category": "venta",
+    "title": "Finca rústica de ensueño en Alhaurín de la Torre",
+    "zone": "",
+    "bedrooms": 4,
+    "price": 650000,
+    "rent": null,
+    "type": "casa rústica"
+  },
+  {
+    "id": "4217948",
+    "category": "alquiler",
+    "title": "",
+    "zone": "",
+    "bedrooms": 2,
+    "price": null,
+    "rent": 1000,
+    "type": "local"
+  },
+  {
+    "id": "4217954",
+    "category": "alquiler",
+    "title": "Amplio local comercial en alquiler en la Ctra. de Coín – Churriana (Málaga)",
+    "zone": "",
+    "bedrooms": 4,
+    "price": null,
+    "rent": 2000,
+    "type": "local"
+  },
+  {
+    "id": "4222680",
+    "category": "venta",
+    "title": "Piso céntrico en Torremolinos",
+    "zone": "",
+    "bedrooms": 1,
+    "price": 215000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4224262",
+    "category": "venta",
+    "title": "ADOSADO EN CHURRIANA",
+    "zone": "",
+    "bedrooms": 3,
+    "price": 390000,
+    "rent": null,
+    "type": "casa / chalet"
+  },
+  {
+    "id": "4224288",
+    "category": "venta",
+    "title": "Estudio reformado con licencia vacacional en Arroyo de la Miel",
+    "zone": "",
+    "bedrooms": 0,
+    "price": 162000,
+    "rent": null,
+    "type": "piso"
+  },
+  {
+    "id": "4225854",
+    "category": "venta",
+    "title": "LOCAL CON GRAN POTENCIAL!!",
+    "zone": "",
+    "bedrooms": 3,
+    "price": 169900,
+    "rent": null,
+    "type": "local"
+  },
+  {
+    "id": "4227220",
+    "category": "alquiler",
+    "title": "Piso Luminoso de Alquiler por Temporada en La Cala de Mijas",
+    "zone": "",
+    "bedrooms": 2,
+    "price": null,
+    "rent": 1300,
+    "type": "piso"
+  },
+  {
+    "id": "4227380",
+    "category": "alquiler",
+    "title": "🏡 Piso en alquiler de larga temporada en Sol Andalusí",
+    "zone": "Alquería-Torrealquería",
+    "bedrooms": 2,
+    "price": null,
+    "rent": 1600,
+    "type": "piso"
+  },
+  {
+    "id": "4228255",
+    "category": "venta",
+    "title": "",
+    "zone": "",
+    "bedrooms": 1,
+    "price": 225000,
+    "rent": null,
+    "type": "local"
+  },
+  {
+    "id": "4229175",
+    "category": "alquiler",
+    "title": "Nave industrial en alquiler - Alhaurín de la Torre",
+    "zone": "",
+    "bedrooms": 3,
+    "price": null,
+    "rent": 1950,
+    "type": "nave industrial"
   }
 ]
