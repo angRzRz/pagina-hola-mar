@@ -34,14 +34,14 @@ a:hover {
 }
 
 .logo {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: white;
+  width: 72px;
+  height: 72px;
+  border-radius: 0;
+  background: transparent;
   display: grid;
   place-items: center;
-  overflow: hidden;
-  padding: 2px;
+  overflow: visible;
+  padding: 0;
 }
 
 .logo img {
@@ -94,21 +94,21 @@ a:hover {
 }
 
 .agent-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #ecfeff;
+  width: 52px;
+  height: 52px;
+  border-radius: 0;
+  background: transparent;
   color: #0f766e;
   display: grid;
   place-items: center;
   font-weight: 700;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .agent-avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .agent-name {
