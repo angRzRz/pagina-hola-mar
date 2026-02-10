@@ -1,8 +1,13 @@
 const CONFIG = {
   brandName: "Hola Mar",
-  // Pega aquí tu enlace de Apps Script cuando quieras reactivar la hoja
-  scriptUrl: "https://script.google.com/macros/s/AKfycbxSOWUhhyEHwIszNQxsrqO7yFSt_MnFRdSU5y-ICpcLbv-NnkZQc6UIUsGCas_Zo1sqrA/exec",
-  retentionDays: 30
+  scriptUrl: "",
+  retentionDays: 30,
+  agents: {
+    general: {
+      name: "Equipo Hola Mar",
+      photo: "logo.png"
+    }
+  }
 };
 
 const state = {
@@ -10,7 +15,6 @@ const state = {
   step: "await_name",
   lang: "es",
   consent: false,
-  createdAt: null,
   lead: {
     name: "",
     phone: "",
@@ -28,226 +32,101 @@ const elements = {
   chatBody: document.getElementById("chat-body"),
   chatForm: document.getElementById("chat-form"),
   chatInput: document.getElementById("chat-input"),
-  sendBtn: document.getElementById("send-btn"),
   quickReplies: document.getElementById("quick-replies"),
   consentPanel: document.getElementById("consent-panel"),
   consentCheckbox: document.getElementById("consent-checkbox"),
   consentContinue: document.getElementById("consent-continue"),
+  consentText: document.getElementById("consent-text"),
   welcomeTitle: document.getElementById("welcome-title"),
   welcomeSubtitle: document.getElementById("welcome-subtitle"),
   agentName: document.getElementById("agent-name"),
-  agentAvatar: document.getElementById("agent-avatar"),
-  progressText: document.getElementById("progress-text"),
-  progressFill: document.getElementById("progress-fill")
+  agentAvatar: document.getElementById("agent-avatar")
 };
 
 const messages = {
   es: {
-    welcome:
-      "Hola, somos Hola Mar. Te ayudamos con tu compra o venta inmobiliaria.",
-    intro: "Será rápido: 3 preguntas y te mostramos opciones reales.",
-    askName: "¿Cómo te llamas?",
-    afterName: (name) => `Encantados, ${name}.`,
-    askPhone: "¿Nos compartes un teléfono de contacto? (WhatsApp o llamada)",
+    welcome: (agent) =>
+      agent
+        ? `Soy ${agent}, ¿en qué puedo ayudarte?`
+        : "Soy el asistente de Hola Mar, ¿en qué puedo ayudarte?",
+    askName: "Para empezar, ¿cómo te llamas?",
+    askPhone:
+      "Gracias. ¿Cuál es tu número de teléfono? Lo usaremos para que el agente te contacte cuando esté disponible.",
     phoneWhy:
-      "Lo pedimos para que nuestro equipo te contacte por WhatsApp o llamada en cuanto esté disponible.",
+      "Lo pedimos para que un agente te contacte por WhatsApp o llamada en cuanto esté disponible.",
     consentNeeded:
-      "Necesitamos tu permiso para guardar esta conversación y que nuestro equipo la revise.",
-    consentThanks: "¡Perfecto, gracias!",
+      "Antes de continuar, necesito que aceptes la Política de Privacidad.",
     askRole: "¿Eres comprador o vendedor?",
+    askCategory: "¿Buscas comprar o alquilar?",
+    buy: "Comprar",
+    rent: "Alquilar",
     buyer: "Comprador",
     seller: "Vendedor",
-    askBuyerIntent: "¿Buscas comprar o alquilar?",
-    buyIntent: "Comprar",
-    rentIntent: "Alquilar",
-    askSellerIntent: "¿Quieres vender o alquilar tu propiedad?",
-    sellIntent: "Vender",
-    rentOutIntent: "Ofrecer en alquiler",
-    askLocation: "¿En qué zona o ciudad buscas?",
-    askBudget: "¿Cuál es tu presupuesto máximo aproximado?",
-    askBedrooms: "¿Cuántas habitaciones mínimo?",
-    askRentLocation: "¿En qué zona o ciudad quieres alquilar?",
-    askRentBudget: "¿Cuál es tu presupuesto mensual aproximado?",
-    askRentBedrooms: "¿Cuántas habitaciones mínimo?",
-    askSellerLocation: "¿En qué zona está la propiedad?",
-    askSellerType: "¿Qué tipo de propiedad es?",
-    askSellerPrice: "¿Precio aproximado de venta?",
-    askLandlordLocation: "¿En qué zona está la propiedad?",
-    askLandlordType: "¿Qué tipo de propiedad es?",
-    askLandlordRent: "¿Precio mensual aproximado de alquiler?",
+    askLocation: "¿En qué zona o ciudad te interesa?",
+    askBudgetBuy: "¿Cuál es tu presupuesto máximo para comprar en euros?",
+    askBudgetRent: "¿Cuál es tu presupuesto máximo de alquiler al mes?",
+    askBedrooms: "¿Cuántas habitaciones mínimo necesitas?",
+    askSellerLocation: "¿En qué zona está tu propiedad?",
+    askSellerType: "¿Qué tipo de propiedad quieres vender?",
     noMatches:
-      "Ahora mismo no tenemos opciones exactas en la base. Nuestro equipo revisará tu caso.",
-    matchesIntro: (count) => `Encontramos ${count} opciones que encajan:`,
+      "Ahora mismo no tengo viviendas que encajen con esos criterios. Un agente te contactará con opciones.",
+    matchesIntro: "Estas viviendas encajan con lo que buscas:",
     finishBuyer:
-      "Si alguna te interesa, dime el código y te contactamos.",
-    finishRent:
-      "Si alguna te interesa, dime el código y te contactamos.",
+      "Gracias, un agente te contactará en cuanto esté disponible.",
     finishSeller:
-      "Gracias. Nuestro equipo te contactará para ayudarte con la venta.",
-    finishLandlord:
-      "Gracias. Nuestro equipo te contactará para ayudarte con el alquiler.",
-    invalidPhone: "Escríbenos un teléfono válido con números.",
+      "Gracias, un agente te contactará para ayudarte con la venta.",
+    invalidPhone: "Necesito un teléfono válido con dígitos.",
     invalidNumber: "Escribe un número válido, por favor.",
     restricted:
-      "Solo podemos ayudar con compra o venta de vivienda y datos de nuestras propiedades.",
-    keepGoing: "Lo anotamos. ¿Algo más que debamos saber?"
+      "No puedo ayudar con ese tema. Puedo ayudarte con vivienda, compra o venta.",
+    keepGoing:
+      "Un agente te contactará en cuanto esté disponible. ¿Quieres añadir algún detalle más?"
   },
   en: {
-    welcome: "Hi, we're Hola Mar. We help you buy or sell property.",
-    intro: "Quick and easy: 3 questions and we’ll show real options.",
-    askName: "What's your name?",
-    afterName: (name) => `Nice to meet you, ${name}.`,
-    askPhone: "May we have a contact phone? (WhatsApp or call)",
+    welcome: (agent) =>
+      agent
+        ? `I'm ${agent}. How can I help you?`
+        : "I'm the Hola Mar assistant. How can I help you?",
+    askName: "To start, what's your name?",
+    askPhone:
+      "Thanks. What's your phone number? We'll use it so an agent can contact you when available.",
     phoneWhy:
-      "We ask for it so our team can contact you by WhatsApp or call when available.",
-    consentNeeded:
-      "We need your permission to store this chat and let our team review it.",
-    consentThanks: "Perfect, thanks.",
-    askRole: "Are you a buyer or a seller?",
+      "We ask for it so an agent can contact you by WhatsApp or call as soon as possible.",
+    consentNeeded: "Please accept the Privacy Policy to continue.",
+    askRole: "Are you buying or selling?",
+    askCategory: "Are you looking to buy or rent?",
+    buy: "Buy",
+    rent: "Rent",
     buyer: "Buyer",
     seller: "Seller",
-    askBuyerIntent: "Do you want to buy or rent?",
-    buyIntent: "Buy",
-    rentIntent: "Rent",
-    askSellerIntent: "Do you want to sell or rent out your property?",
-    sellIntent: "Sell",
-    rentOutIntent: "Offer for rent",
-    askLocation: "Which area or city are you looking in?",
-    askBudget: "What's your maximum budget (approx.)?",
+    askLocation: "Which area or city are you interested in?",
+    askBudgetBuy: "What's your maximum purchase budget in euros?",
+    askBudgetRent: "What's your maximum monthly rent in euros?",
     askBedrooms: "Minimum number of bedrooms?",
-    askRentLocation: "Which area or city do you want to rent in?",
-    askRentBudget: "What's your monthly budget (approx.)?",
-    askRentBedrooms: "Minimum number of bedrooms?",
-    askSellerLocation: "Where is the property located?",
-    askSellerType: "What type of property is it?",
-    askSellerPrice: "Approximate asking price?",
-    askLandlordLocation: "Where is the property located?",
-    askLandlordType: "What type of property is it?",
-    askLandlordRent: "Approximate monthly rent?",
+    askSellerLocation: "Where is your property located?",
+    askSellerType: "What type of property are you selling?",
     noMatches:
-      "I don't see exact matches right now. Our team will review your case.",
-    matchesIntro: (count) => `We found ${count} options that match:`,
-    finishBuyer: "If any interest you, share the code and we’ll contact you.",
-    finishRent: "If any interest you, share the code and we’ll contact you.",
-    finishSeller: "Thanks. Our team will contact you to help with the sale.",
-    finishLandlord: "Thanks. Our team will contact you about the rental.",
-    invalidPhone: "Please enter a valid phone number.",
+      "I don't have matching homes right now. An agent will contact you with options.",
+    matchesIntro: "These homes match your criteria:",
+    finishBuyer:
+      "Thanks, an agent will contact you as soon as they are available.",
+    finishSeller: "Thanks, an agent will contact you to help with the sale.",
+    invalidPhone: "Please enter a valid phone number with digits.",
     invalidNumber: "Please enter a valid number.",
     restricted:
-      "I can only help with buying/selling property and our listings.",
-    keepGoing: "Got it. Anything else we should know?"
+      "I can't help with that topic. I can help with homes, buying or selling.",
+    keepGoing:
+      "An agent will contact you when available. Do you want to add more details?"
   }
 };
-
-const placeholders = {
-  es: {
-    await_name: "Tu nombre",
-    await_phone: "Tu teléfono",
-    await_role: "Comprador o vendedor",
-    await_buyer_intent: "Comprar o alquilar",
-    await_seller_intent: "Vender o alquilar",
-    await_location: "Zona o ciudad",
-    await_budget: "Presupuesto (ej: 250000)",
-    await_bedrooms: "Habitaciones (ej: 2)",
-    await_rent_location: "Zona o ciudad",
-    await_rent_budget: "Presupuesto mensual (ej: 900)",
-    await_rent_bedrooms: "Habitaciones (ej: 2)",
-    await_seller_location: "Zona de la propiedad",
-    await_seller_type: "Tipo de propiedad",
-    await_seller_price: "Precio aproximado",
-    await_landlord_location: "Zona de la propiedad",
-    await_landlord_type: "Tipo de propiedad",
-    await_landlord_rent: "Precio mensual",
-    done: "Escribe un detalle extra",
-    default: "Escribe tu mensaje"
-  },
-  en: {
-    await_name: "Your name",
-    await_phone: "Your phone",
-    await_role: "Buyer or seller",
-    await_buyer_intent: "Buy or rent",
-    await_seller_intent: "Sell or rent out",
-    await_location: "Area or city",
-    await_budget: "Budget (e.g. 250000)",
-    await_bedrooms: "Bedrooms (e.g. 2)",
-    await_rent_location: "Area or city",
-    await_rent_budget: "Monthly budget (e.g. 900)",
-    await_rent_bedrooms: "Bedrooms (e.g. 2)",
-    await_seller_location: "Property area",
-    await_seller_type: "Property type",
-    await_seller_price: "Approx. price",
-    await_landlord_location: "Property area",
-    await_landlord_type: "Property type",
-    await_landlord_rent: "Monthly rent",
-    done: "Add an extra detail",
-    default: "Type your message"
-  }
-};
-
-const stepMeta = {
-  await_name: { step: 1, label: "Tus datos" },
-  await_phone: { step: 1, label: "Tus datos" },
-  await_consent: { step: 1, label: "Privacidad" },
-  await_role: { step: 2, label: "Perfil" },
-  await_buyer_intent: { step: 2, label: "Preferencias" },
-  await_seller_intent: { step: 2, label: "Preferencias" },
-  await_location: { step: 3, label: "Detalles" },
-  await_budget: { step: 3, label: "Detalles" },
-  await_bedrooms: { step: 3, label: "Detalles" },
-  await_rent_location: { step: 3, label: "Alquiler" },
-  await_rent_budget: { step: 3, label: "Alquiler" },
-  await_rent_bedrooms: { step: 3, label: "Alquiler" },
-  await_seller_location: { step: 3, label: "Detalles" },
-  await_seller_type: { step: 3, label: "Detalles" },
-  await_seller_price: { step: 3, label: "Detalles" },
-  await_landlord_location: { step: 3, label: "Alquiler" },
-  await_landlord_type: { step: 3, label: "Alquiler" },
-  await_landlord_rent: { step: 3, label: "Alquiler" },
-  done: { step: 4, label: "Seguimiento" }
-};
-
-let botQueue = Promise.resolve();
-let typingEl = null;
-
-function t(key, ...args) {
-  const value = messages[state.lang][key];
-  return typeof value === "function" ? value(...args) : value;
-}
 
 function setLanguage(lang) {
   state.lang = lang;
   state.lead.language = lang;
-  updatePlaceholder();
 }
 
-function setStep(step) {
-  state.step = step;
-  updateProgress();
-  updatePlaceholder();
-  if (step === "await_consent") {
-    setInputEnabled(false);
-  } else {
-    setInputEnabled(true);
-  }
-}
-
-function updatePlaceholder() {
-  const ph =
-    placeholders[state.lang]?.[state.step] ||
-    placeholders[state.lang]?.default ||
-    "Escribe tu mensaje";
-  elements.chatInput.placeholder = ph;
-}
-
-function updateProgress() {
-  const meta = stepMeta[state.step] || { step: 1, label: "" };
-  elements.progressText.textContent = `Paso ${meta.step} de 4 · ${meta.label}`;
-  elements.progressFill.style.width = `${(meta.step / 4) * 100}%`;
-}
-
-function setInputEnabled(enabled) {
-  elements.chatInput.disabled = !enabled;
-  elements.sendBtn.disabled = !enabled;
+function getText(key) {
+  return messages[state.lang][key];
 }
 
 function addMessage(role, text) {
@@ -257,37 +136,6 @@ function addMessage(role, text) {
   elements.chatBody.appendChild(msg);
   elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
   state.transcript.push({ role, text, ts: new Date().toISOString() });
-}
-
-function showTyping() {
-  if (typingEl) return;
-  typingEl = document.createElement("div");
-  typingEl.className = "msg bot typing";
-  typingEl.innerHTML = "<span></span><span></span><span></span>";
-  elements.chatBody.appendChild(typingEl);
-  elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
-}
-
-function hideTyping() {
-  if (!typingEl) return;
-  typingEl.remove();
-  typingEl = null;
-}
-
-function addBotMessage(text) {
-  const delay = 350 + Math.random() * 450;
-  botQueue = botQueue.then(
-    () =>
-      new Promise((resolve) => {
-        showTyping();
-        setTimeout(() => {
-          hideTyping();
-          addMessage("bot", text);
-          resolve();
-        }, delay);
-      })
-  );
-  return botQueue;
 }
 
 function showQuickReplies(options) {
@@ -308,18 +156,7 @@ function clearQuickReplies() {
 }
 
 function showConsentPanel(show) {
-  if (!elements.consentPanel) return;
   elements.consentPanel.hidden = !show;
-  if (show) {
-    if (elements.consentCheckbox) {
-      elements.consentCheckbox.checked = false;
-    }
-    if (elements.consentContinue) {
-      elements.consentContinue.disabled = true;
-    }
-    setInputEnabled(false);
-    clearQuickReplies();
-  }
 }
 
 function detectLanguage(text) {
@@ -396,69 +233,47 @@ function extractNumber(text) {
   return Number(digits);
 }
 
-function isBuyerRole(text) {
-  const sample = text.toLowerCase();
-  return (
-    sample.includes("compr") ||
-    sample.includes("buyer") ||
-    sample.includes("busco")
-  );
-}
-
-function isSellerRole(text) {
-  const sample = text.toLowerCase();
-  return (
-    sample.includes("vend") ||
-    sample.includes("seller") ||
-    sample.includes("propiet") ||
-    sample.includes("tengo")
-  );
-}
-
-function isRentIntent(text) {
-  const sample = text.toLowerCase();
-  return sample.includes("alquil") || sample.includes("rent");
-}
-
-function isBuyIntent(text) {
+function isBuyer(text) {
   const sample = text.toLowerCase();
   return sample.includes("compr") || sample.includes("buy");
 }
 
-function isSellIntent(text) {
+function isSeller(text) {
   const sample = text.toLowerCase();
   return sample.includes("vend") || sample.includes("sell");
 }
 
+function isRent(text) {
+  const sample = text.toLowerCase();
+  return (
+    sample.includes("alquil") ||
+    sample.includes("rent") ||
+    sample.includes("renta") ||
+    sample.includes("lease")
+  );
+}
+
 function updateSummary() {
   if (state.lead.role === "buyer") {
-    const { location, maxPrice, minBedrooms } = state.lead.criteria;
-    state.lead.summary = `Comprador · Zona: ${location || "-"} · Presupuesto: ${
-      maxPrice || "-"
-    }€ · Habitaciones: ${minBedrooms || "-"}`;
-  }
-  if (state.lead.role === "rent") {
-    const { location, maxRent, minBedrooms } = state.lead.criteria;
-    state.lead.summary = `Alquiler · Zona: ${location || "-"} · Presupuesto mensual: ${
-      maxRent || "-"
-    }€ · Habitaciones: ${minBedrooms || "-"}`;
+    const { location, maxPrice, minBedrooms, category } = state.lead.criteria;
+    const operation = category === "alquiler" ? "Alquiler" : "Compra";
+    const budgetLabel = category === "alquiler" ? "Alquiler" : "Presupuesto";
+    state.lead.summary = `Comprador · Operación: ${operation} · Zona: ${
+      location || "-"
+    } · ${budgetLabel}: ${maxPrice || "-"}€ · Habitaciones: ${
+      minBedrooms || "-"
+    }`;
   }
   if (state.lead.role === "seller") {
-    const { location, propertyType, askingPrice } = state.lead.criteria;
+    const { location, propertyType } = state.lead.criteria;
     state.lead.summary = `Vendedor · Zona: ${location || "-"} · Tipo: ${
       propertyType || "-"
-    } · Precio: ${askingPrice || "-"}`;
-  }
-  if (state.lead.role === "landlord") {
-    const { location, propertyType, monthlyRent } = state.lead.criteria;
-    state.lead.summary = `Propietario · Alquiler · Zona: ${location || "-"} · Tipo: ${
-      propertyType || "-"
-    } · Mensual: ${monthlyRent || "-"}`;
+    }`;
   }
 }
 
 async function sendLeadUpdate(reason) {
-  if (!CONFIG.scriptUrl || !state.consent) return;
+  if (!CONFIG.scriptUrl) return;
   const payload = {
     sessionId: state.sessionId,
     createdAt: state.createdAt,
@@ -471,54 +286,45 @@ async function sendLeadUpdate(reason) {
   try {
     await fetch(CONFIG.scriptUrl, {
       method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-  } catch {
+  } catch (error) {
     return;
   }
 }
 
-function formatProperty(property) {
-  const isRent = state.lead.role === "rent";
-  const value = isRent ? property.rent : property.price;
-  const price = new Intl.NumberFormat(state.lang, {
+function formatMoney(value) {
+  return new Intl.NumberFormat(state.lang, {
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 0
   }).format(value || 0);
-  const suffix = isRent ? " / mes" : "";
-  return `${property.id} · ${property.title} · ${property.zone} · ${property.bedrooms} hab · ${price}${suffix}`;
+}
+
+function formatProperty(property) {
+  const isRent = property.category === "alquiler";
+  const amount = isRent ? property.rent : property.price;
+  const price = formatMoney(amount);
+  const suffix =
+    isRent && state.lang === "en"
+      ? "/month"
+      : isRent
+      ? "/mes"
+      : "";
+  const categoryLabel =
+    property.category === "alquiler"
+      ? state.lang === "en"
+        ? "rent"
+        : "alquiler"
+      : state.lang === "en"
+      ? "sale"
+      : "venta";
+  return `${property.id} · ${property.title} · ${property.zone} · ${property.bedrooms} hab · ${categoryLabel} · ${price}${suffix}`;
 }
 
 function listMatches() {
-  const { location, maxPrice, maxRent, minBedrooms } = state.lead.criteria;
-  const isRent = state.lead.role === "rent";
-  const matches = state.properties.filter((property) => {
-    const category =
-      property.category || (property.rent ? "alquiler" : "venta");
-    if (isRent && category !== "alquiler") return false;
-    if (!isRent && category !== "venta") return false;
-    const locationOk = location
-      ? property.zone.toLowerCase().includes(location.toLowerCase())
-      : true;
-    const value = isRent ? property.rent : property.price;
-    const limit = isRent ? maxRent : maxPrice;
-    const priceOk = limit ? value && value <= limit : true;
-    const bedOk = minBedrooms ? property.bedrooms >= minBedrooms : true;
-    return locationOk && priceOk && bedOk;
-  });
-  if (!matches.length) {
-    addBotMessage(t("noMatches"));
-    addBotMessage(isRent ? t("finishRent") : t("finishBuyer"));
-    return;
-  }
-  addBotMessage(t("matchesIntro", matches.length));
-  matches.slice(0, 5).forEach((property) => {
-    addBotMessage(formatProperty(property));
-  });
-  addBotMessage(isRent ? t("finishRent") : t("finishBuyer"));
+  addMessage("bot", getText("finishBuyer"));
 }
 
 function handleRole(role) {
@@ -527,276 +333,121 @@ function handleRole(role) {
   updateSummary();
   clearQuickReplies();
   if (role === "buyer") {
-    addBotMessage(t("askLocation"));
-    setStep("await_location");
-  } else if (role === "rent") {
-    addBotMessage(t("askRentLocation"));
-    setStep("await_rent_location");
-  } else if (role === "landlord") {
-    addBotMessage(t("askLandlordLocation"));
-    setStep("await_landlord_location");
+    addMessage("bot", getText("askLocation"));
+    state.step = "await_location";
   } else {
-    addBotMessage(t("askSellerLocation"));
-    setStep("await_seller_location");
+    addMessage("bot", getText("askSellerLocation"));
+    state.step = "await_seller_location";
   }
   sendLeadUpdate("role");
-}
-
-function finalizeConsent() {
-  state.consent = true;
-  state.lead.consent = true;
-  if (elements.consentPanel) {
-    elements.consentPanel.hidden = true;
-    elements.consentPanel.remove();
-  }
-  setInputEnabled(true);
-}
-
-function handleConsentAccepted() {
-  if (state.consent || state.step !== "await_consent") return;
-  finalizeConsent();
-  addBotMessage(t("consentThanks"));
-  addBotMessage(t("askRole"));
-  setStep("await_role");
-  showQuickReplies([
-    { label: t("buyer"), value: t("buyer") },
-    { label: t("seller"), value: t("seller") }
-  ]);
-  sendLeadUpdate("consent");
 }
 
 function handleUserMessage(text) {
   const cleanText = text.trim();
   if (!cleanText) return;
-  if (state.step === "await_consent") {
-    addBotMessage(t("consentNeeded"));
-    return;
-  }
   addMessage("user", cleanText);
   if (!state.lead.language) {
     setLanguage(detectLanguage(cleanText));
   }
   if (containsRestrictedTopic(cleanText)) {
-    addBotMessage(t("restricted"));
+    addMessage("bot", getText("restricted"));
     return;
   }
   if (state.step === "await_name") {
     state.lead.name = cleanText;
-    addBotMessage(t("afterName", cleanText));
-    addBotMessage(t("askPhone"));
-    setStep("await_phone");
+    addMessage("bot", getText("askPhone"));
+    state.step = "await_phone";
     sendLeadUpdate("name");
     return;
   }
   if (state.step === "await_phone") {
     if (looksLikeWhy(cleanText)) {
-      addBotMessage(t("phoneWhy"));
+      addMessage("bot", getText("phoneWhy"));
       return;
     }
     const phone = extractPhone(cleanText);
     if (!phone) {
-      addBotMessage(t("invalidPhone"));
+      addMessage("bot", getText("invalidPhone"));
       return;
     }
     state.lead.phone = phone;
     showConsentPanel(true);
-    setStep("await_consent");
-    addBotMessage(t("consentNeeded"));
+    addMessage("bot", getText("consentNeeded"));
+    state.step = "await_consent";
     sendLeadUpdate("phone");
     return;
   }
-  if (state.step === "await_role") {
-    if (isBuyerRole(cleanText)) {
-      addBotMessage(t("askBuyerIntent"));
-      setStep("await_buyer_intent");
-      showQuickReplies([
-        { label: t("buyIntent"), value: t("buyIntent") },
-        { label: t("rentIntent"), value: t("rentIntent") }
-      ]);
-      sendLeadUpdate("buyer_intent");
-      return;
-    }
-    if (isSellerRole(cleanText)) {
-      addBotMessage(t("askSellerIntent"));
-      setStep("await_seller_intent");
-      showQuickReplies([
-        { label: t("sellIntent"), value: t("sellIntent") },
-        { label: t("rentOutIntent"), value: t("rentOutIntent") }
-      ]);
-      sendLeadUpdate("seller_intent");
-      return;
-    }
-    addBotMessage(t("askRole"));
-    showQuickReplies([
-      { label: t("buyer"), value: t("buyer") },
-      { label: t("seller"), value: t("seller") }
-    ]);
+  if (state.step === "await_consent") {
+    addMessage("bot", getText("consentNeeded"));
     return;
   }
-  if (state.step === "await_buyer_intent") {
-    if (isBuyIntent(cleanText)) {
+  if (state.step === "await_role") {
+    if (isBuyer(cleanText)) {
       handleRole("buyer");
       return;
     }
-    if (isRentIntent(cleanText)) {
-      handleRole("rent");
-      return;
-    }
-    addBotMessage(t("askBuyerIntent"));
-    showQuickReplies([
-      { label: t("buyIntent"), value: t("buyIntent") },
-      { label: t("rentIntent"), value: t("rentIntent") }
-    ]);
-    return;
-  }
-  if (state.step === "await_seller_intent") {
-    if (isSellIntent(cleanText)) {
+    if (isSeller(cleanText)) {
       handleRole("seller");
       return;
     }
-    if (isRentIntent(cleanText)) {
-      handleRole("landlord");
-      return;
-    }
-    addBotMessage(t("askSellerIntent"));
+    addMessage("bot", getText("askRole"));
     showQuickReplies([
-      { label: t("sellIntent"), value: t("sellIntent") },
-      { label: t("rentOutIntent"), value: t("rentOutIntent") }
+      { label: getText("buyer"), value: getText("buyer") },
+      { label: getText("seller"), value: getText("seller") }
     ]);
     return;
   }
   if (state.step === "await_location") {
     state.lead.criteria.location = cleanText;
     updateSummary();
-    addBotMessage(t("askBudget"));
-    setStep("await_budget");
+    addMessage("bot", getText("askBudget"));
+    state.step = "await_budget";
     sendLeadUpdate("location");
-    return;
-  }
-  if (state.step === "await_rent_location") {
-    state.lead.criteria.location = cleanText;
-    updateSummary();
-    addBotMessage(t("askRentBudget"));
-    setStep("await_rent_budget");
-    sendLeadUpdate("rent_location");
     return;
   }
   if (state.step === "await_budget") {
     const budget = extractNumber(cleanText);
     if (!budget) {
-      addBotMessage(t("invalidNumber"));
+      addMessage("bot", getText("invalidNumber"));
       return;
     }
     state.lead.criteria.maxPrice = budget;
     updateSummary();
-    addBotMessage(t("askBedrooms"));
-    setStep("await_bedrooms");
+    addMessage("bot", getText("askBedrooms"));
+    state.step = "await_bedrooms";
     sendLeadUpdate("budget");
-    return;
-  }
-  if (state.step === "await_rent_budget") {
-    const budget = extractNumber(cleanText);
-    if (!budget) {
-      addBotMessage(t("invalidNumber"));
-      return;
-    }
-    state.lead.criteria.maxRent = budget;
-    updateSummary();
-    addBotMessage(t("askRentBedrooms"));
-    setStep("await_rent_bedrooms");
-    sendLeadUpdate("rent_budget");
     return;
   }
   if (state.step === "await_bedrooms") {
     const bedrooms = extractNumber(cleanText);
     if (!bedrooms) {
-      addBotMessage(t("invalidNumber"));
+      addMessage("bot", getText("invalidNumber"));
       return;
     }
     state.lead.criteria.minBedrooms = bedrooms;
     updateSummary();
     listMatches();
-    setStep("done");
+    state.step = "done";
     sendLeadUpdate("criteria");
-    return;
-  }
-  if (state.step === "await_rent_bedrooms") {
-    const bedrooms = extractNumber(cleanText);
-    if (!bedrooms) {
-      addBotMessage(t("invalidNumber"));
-      return;
-    }
-    state.lead.criteria.minBedrooms = bedrooms;
-    updateSummary();
-    listMatches();
-    setStep("done");
-    sendLeadUpdate("rent_criteria");
     return;
   }
   if (state.step === "await_seller_location") {
     state.lead.criteria.location = cleanText;
     updateSummary();
-    addBotMessage(t("askSellerType"));
-    setStep("await_seller_type");
+    addMessage("bot", getText("askSellerType"));
+    state.step = "await_seller_type";
     sendLeadUpdate("seller_location");
     return;
   }
   if (state.step === "await_seller_type") {
     state.lead.criteria.propertyType = cleanText;
     updateSummary();
-    addBotMessage(t("askSellerPrice"));
-    setStep("await_seller_price");
+    addMessage("bot", getText("finishSeller"));
+    state.step = "done";
     sendLeadUpdate("seller_type");
     return;
   }
-  if (state.step === "await_seller_price") {
-    const price = extractNumber(cleanText);
-    if (!price) {
-      addBotMessage(t("invalidNumber"));
-      return;
-    }
-    state.lead.criteria.askingPrice = price;
-    updateSummary();
-    addBotMessage(t("finishSeller"));
-    setStep("done");
-    sendLeadUpdate("seller_price");
-    return;
-  }
-  if (state.step === "await_landlord_location") {
-    state.lead.criteria.location = cleanText;
-    updateSummary();
-    addBotMessage(t("askLandlordType"));
-    setStep("await_landlord_type");
-    sendLeadUpdate("landlord_location");
-    return;
-  }
-  if (state.step === "await_landlord_type") {
-    state.lead.criteria.propertyType = cleanText;
-    updateSummary();
-    addBotMessage(t("askLandlordRent"));
-    setStep("await_landlord_rent");
-    sendLeadUpdate("landlord_type");
-    return;
-  }
-  if (state.step === "await_landlord_rent") {
-    const rent = extractNumber(cleanText);
-    if (!rent) {
-      addBotMessage(t("invalidNumber"));
-      return;
-    }
-    state.lead.criteria.monthlyRent = rent;
-    updateSummary();
-    addBotMessage(t("finishLandlord"));
-    setStep("done");
-    sendLeadUpdate("landlord_rent");
-    return;
-  }
-  if (state.step === "done") {
-    state.lead.criteria.extra = cleanText;
-    updateSummary();
-    addBotMessage(t("keepGoing"));
-    sendLeadUpdate("extra");
-  }
+  addMessage("bot", getText("keepGoing"));
 }
 
 async function loadProperties() {
@@ -807,33 +458,43 @@ async function loadProperties() {
     if (!response.ok) return;
     const data = await response.json();
     state.properties = Array.isArray(data) ? data : [];
-  } catch {
+  } catch (error) {
     state.properties = [];
   }
 }
 
-function setupBrand() {
-  state.lead.agent = CONFIG.brandName;
-  elements.agentName.textContent = CONFIG.brandName;
+function setupAgent() {
+  const params = new URLSearchParams(window.location.search);
+  const agentKey = params.get("agent") || "general";
+  const agent = CONFIG.agents[agentKey] || CONFIG.agents.general;
+  state.lead.agent = agent.name;
+  elements.agentName.textContent = agent.name;
   elements.welcomeTitle.textContent = `Bienvenido a ${CONFIG.brandName}`;
-  elements.welcomeSubtitle.textContent = "Atención inmobiliaria";
-  elements.agentAvatar.textContent = CONFIG.brandName
+  elements.welcomeSubtitle.textContent = agent.name
+    ? `Soy ${agent.name}`
+    : "Asistente inmobiliario";
+  elements.agentAvatar.textContent = agent.name
     .split(" ")
     .map((part) => part[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();
+  if (agent.photo) {
+    const img = document.createElement("img");
+    img.src = agent.photo;
+    img.alt = agent.name;
+    elements.agentAvatar.innerHTML = "";
+    elements.agentAvatar.appendChild(img);
+  }
 }
 
 function startConversation() {
   setLanguage(
     navigator.language && navigator.language.startsWith("en") ? "en" : "es"
   );
-  setStep("await_name");
+  addMessage("bot", getText("welcome")(state.lead.agent));
+  addMessage("bot", getText("askName"));
   state.createdAt = new Date().toISOString();
-  addBotMessage(t("welcome"));
-  addBotMessage(t("intro"));
-  addBotMessage(t("askName"));
   sendLeadUpdate("start");
 }
 
@@ -841,27 +502,26 @@ elements.chatForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const text = elements.chatInput.value;
   elements.chatInput.value = "";
-  if (state.step === "await_consent") {
-    addBotMessage(t("consentNeeded"));
-    return;
-  }
   handleUserMessage(text);
 });
 
-elements.consentCheckbox?.addEventListener("change", () => {
-  if (elements.consentContinue) {
-    elements.consentContinue.disabled = !elements.consentCheckbox.checked;
-  }
-});
-
-elements.consentContinue?.addEventListener("click", () => {
+elements.consentContinue.addEventListener("click", () => {
   if (!elements.consentCheckbox.checked) {
-    addBotMessage(t("consentNeeded"));
+    addMessage("bot", getText("consentNeeded"));
     return;
   }
-  handleConsentAccepted();
+  state.consent = true;
+  state.lead.consent = true;
+  showConsentPanel(false);
+  addMessage("bot", getText("askRole"));
+  state.step = "await_role";
+  showQuickReplies([
+    { label: getText("buyer"), value: getText("buyer") },
+    { label: getText("seller"), value: getText("seller") }
+  ]);
+  sendLeadUpdate("consent");
 });
 
-setupBrand();
+setupAgent();
 loadProperties();
 startConversation();
